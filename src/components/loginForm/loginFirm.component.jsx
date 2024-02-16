@@ -1,51 +1,48 @@
 import React from "react";
 import { useState } from "react";
 import FormInput from "../formInput/formInput.component";
-import {  createAuthUserWithEmailAndPassword  , createUserDocumentFromAuth} from "../../utils/firebase/firebase.utils";
+import {  createAuthUserWithEmailAndPassword  , createUserDocumentFromAuth , signInWithGooglePopup ,signInUserWithEmailAndPassword} from "../../utils/firebase/firebase.utils";
 import Button from "../button/button.component";
-import LoginForm from "../loginForm/loginFirm.component";
 
-import './signUp.styles.scss'
+import './loginForm.styles.scss'
 const defaultFormFields = {
-  displayName: "",
+
   email: "",
   password: "",
-  confirmPassword: "",
+ 
 };
-const SignUpForm = () => {
+const LoginForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
 //   setTimeout(() => {
 //     console.log(formFields);
 //   }, 1000);
 
 
-  const { displayName, email, password, confirmPassword } = formFields;
+  const {  email, password,  } = formFields;
 
   const clearFormFields = ()=>{
     setFormFields(defaultFormFields)
   }
 
+  const loginWithGoogle = async () =>{
+    const {user} = await signInWithGooglePopup() ;
+    await createUserDocumentFromAuth(user)
+
+  }
+
   const handleSubmit = async (event)=>{
     event.preventDefault();
-    if(password !== confirmPassword){
-        console.log('password and confirmPassword should match')
-        return ;
-    }
-
+    
     try{
-const {user} = await createAuthUserWithEmailAndPassword(email , password)
-        // const response =
-
-        await createUserDocumentFromAuth(user , {displayName})
+const response = await signInUserWithEmailAndPassword  (email , password) ;
+console.log(response) ; 
         clearFormFields()
        
     }
 
     
     catch(err){
-      if(err.code=== 'auth/email-already-in-use'){
-        console.error('email already in use')
-      }
+   
         console.error(err)
     }
 }
@@ -60,18 +57,11 @@ const {user} = await createAuthUserWithEmailAndPassword(email , password)
 
   return (
     <div className="sign-up-container">
-      <h2>Not registered yet</h2>
-      signUp
+      <h2>Already registered</h2>
+      Login
       <form onSubmit={handleSubmit}>
     
-        <FormInput 
-        label= 'displayName'
-          required
-          onChange={handleChange}
-          type="text"
-          name="displayName"
-          value={displayName}
-        />
+      
        
         <FormInput 
         label='email'
@@ -91,19 +81,15 @@ const {user} = await createAuthUserWithEmailAndPassword(email , password)
           value={password}
         />
        
-        <FormInput 
-        label='confirmPassword'
-          type="password"
-          onChange={handleChange}
-          required
-          name="confirmPassword"
-          value={confirmPassword}
-        />
+       <div className="button-containers">
+       <Button  type="submit">LogIn</Button>
+        <Button buttonType ='google'  type = "button" onClick = {loginWithGoogle}>Login With Google</Button>
+       </div>
 
-        <Button  type="submit">Submit</Button>
+       
       </form>
     </div>
   );
 };
 
-export default SignUpForm;
+export default LoginForm;
