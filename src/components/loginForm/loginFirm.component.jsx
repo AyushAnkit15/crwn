@@ -21,7 +21,7 @@ const LoginForm = () => {
 
   const {  email, password } = formFields;
 
-  const {setCurrentUser} = useContext(UserContext)
+ // const {setCurrentUser} = useContext(UserContext)
 
   const clearFormFields = ()=>{
     setFormFields(defaultFormFields)
@@ -29,7 +29,7 @@ const LoginForm = () => {
 
   const loginWithGoogle = async () =>{
     const {user} = await signInWithGooglePopup() ;
-    await createUserDocumentFromAuth(user)
+    
 
   }
 
@@ -40,7 +40,7 @@ const LoginForm = () => {
 const {user} = await signInUserWithEmailAndPassword  (email , password) ;
 console.log({user}) ; 
         clearFormFields()
-        setCurrentUser({user})
+     //   setCurrentUser({user})
        
     }
 
