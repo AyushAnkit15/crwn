@@ -3,7 +3,7 @@ import { useState ,  useContext} from "react";
 import FormInput from "../formInput/formInput.component";
 import {  createUserDocumentFromAuth , signInWithGooglePopup ,signInUserWithEmailAndPassword} from "../../utils/firebase/firebase.utils";
 import Button from "../button/button.component";
-import {UserContext} from '../../contexts/user.contexts'
+
 
 import './loginForm.styles.scss'
 const defaultFormFields = {

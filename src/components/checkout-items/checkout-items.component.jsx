@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { CartContext } from "../../contexts/cart.context";
 
 const CheckoutItems = ({ cartItem }) => {
-  const { removeC, addItemToCart, removeItemFromCart } =
+  const { clearItemFromCart, addItemToCart, removeItemFromCart } =
     useContext(CartContext);
   const { name, imageUrl, price, quantity } = cartItem;
   return (
@@ -39,7 +39,7 @@ const CheckoutItems = ({ cartItem }) => {
       <div
         className="remove-button"
         onClick={() => {
-          removeC(cartItem);
+          clearItemFromCart(cartItem);
         }}
       >
         &#10005;
